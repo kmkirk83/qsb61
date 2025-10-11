@@ -1,0 +1,36 @@
+# Quantum Spark Bot™ - Cloudflare Workers Configuration
+# © 2024 All Rights Reserved.
+
+name = "quantum-spark-bot-api"
+main = "cloudflare-worker.js"
+compatibility_date = "2024-01-15"
+compatibility_flags = ["nodejs_compat"]
+
+[env.production]
+name = "quantum-spark-bot-api"
+
+[env.development] 
+name = "trading-bot-manager-api-dev"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "quantum-spark-bot"
+database_id = "your-database-id-here"  # Replace with your actual database ID
+
+[build]
+command = ""
+
+[vars]
+ENVIRONMENT = "production"
+APP_NAME = "Quantum Spark Bot™"
+COPYRIGHT_YEAR = "2024"
+CORS_ORIGIN = "*"  # Update this to your domain in production
+
+# Rate limiting rules
+[[rules]]
+type = "route"
+pattern = "api/*"
+
+# Security headers
+[env.production.vars]
+CORS_ORIGIN = "https://your-domain.com"  # Update with your production domain

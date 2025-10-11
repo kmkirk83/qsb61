@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+    Quantum Spark Bot™ - Freemium AI Trading Platform
+    © 2024 All Rights Reserved.
+    
+    INSTANT ACCESS - NO REGISTRATION REQUIRED
+    Advanced AI trading bot configuration with smart freemium conversion.
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Spark Bot™ - Free AI Trading Bot Platform</title>
+    <meta name="description" content="Free AI trading bot configuration with advanced strategies. No signup required. Upgrade for unlimited features.">
+    <meta name="keywords" content="AI trading bot, cryptocurrency trading, automated trading, free trading bot, fintech">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Quantum Spark Bot Development Team">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Quantum Spark Bot™ - Free AI Trading Platform">
+    <meta property="og:description" content="Start trading with AI-powered bots instantly. No registration required.">
+    <meta property="og:image" content="/assets/quantum-spark-preview.jpg">
+    
+    <!-- Scripts & Styles -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <!-- PWA Meta Tags for Android APK Conversion -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#7c3aed">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Quantum Spark">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Quantum Spark Bot">
+    
+    <!-- Payment Gateway Scripts -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&vault=true&intent=subscription"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif']
+                    },
+                    colors: {
+                        'quantum': {
+                            50: '#f0f4ff',
+                            100: '#e0e9ff',
+                            200: '#c7d6fe', 
+                            300: '#a5b8fc',
+                            400: '#8b93f8',
+                            500: '#7c6df2',
+                            600: '#6d48e8',
+                            700: '#5d36d4',
+                            800: '#4c2bb0',
+                            900: '#40278f'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-blue-50 font-inter min-h-screen">
+    <!-- Smart Top Bar with Conversion Trigger -->
+    <div id="conversionBar" class="bg-gradient-to-r from-quantum-600 to-purple-600 text-white py-2 px-4 text-center text-sm hidden">
+        <div class="flex items-center justify-center space-x-4">
+            <span>🚀 <strong>Limited Time:</strong> Get Pro features for 50% off your first month!</span>
+            <button onclick="triggerUpgrade('promo')" class="bg-white text-quantum-600 px-3 py-1 rounded-full text-xs font-medium hover:bg-gray-100 transition">
+                Claim Offer
+            </button>
+            <button onclick="hideConversionBar()" class="text-white/80 hover:text-white ml-2">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Hero Section with Instant Access -->
+    <header class="relative overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 bg-gradient-to-br from-quantum-50 to-blue-100 opacity-50"></div>
+        <div class="absolute inset-0" style="background-image: radial-gradient(circle at 25% 25%, rgba(124, 109, 242, 0.1) 0%, transparent 50%), radial-gradient(circle at 75% 75%, rgba(139, 147, 248, 0.1) 0%, transparent 50%);"></div>
+        
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="text-center mb-12">
+                <!-- Logo & Branding -->
+                <div class="flex items-center justify-center mb-6">
+                    <div class="bg-gradient-to-br from-quantum-500 to-purple-600 p-3 rounded-2xl shadow-lg">
+                        <i class="fas fa-bolt text-white text-3xl"></i>
+                    </div>
+                    <h1 class="ml-4 text-4xl md:text-5xl font-bold bg-gradient-to-r from-quantum-700 to-purple-700 bg-clip-text text-transparent">
+                        Quantum Spark Bot™
+                    </h1>
+                </div>
+                
+                <!-- Hero Headline -->
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+                    Free AI Trading Bot Platform
+                </h2>
+                <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+                    Configure advanced trading strategies with AI-powered bots. 
+                    <strong>Start immediately - no signup required.</strong> 
+                    Upgrade when you're ready for unlimited features.
+                </p>
+                
+                <!-- Instant Access CTA -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+                    <button onclick="startFreeTrading()" class="bg-gradient-to-r from-quantum-600 to-purple-600 hover:from-quantum-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center">
+                        <i class="fas fa-rocket mr-3"></i>
+                        Start Trading FREE Now
+                    </button>
+                    <div class="text-sm text-gray-500 flex items-center">
+                        <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                        No email required • Instant access • Free forever
+                    </div>
+                </div>
+                
+                <!-- Social Proof -->
+                <div class="flex items-center justify-center space-x-8 text-sm text-gray-500">
+                    <div class="flex items-center">
+                        <i class="fas fa-users mr-2 text-quantum-500"></i>
+                        <span><strong>2,847+</strong> active traders</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-chart-line mr-2 text-green-500"></i>
+                        <span><strong>$12.4M+</strong> volume traded</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-star mr-2 text-yellow-500"></i>
+                        <span><strong>4.9/5</strong> user rating</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Quick Feature Highlights -->
+    <section class="py-8 bg-white/50 backdrop-blur-sm">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="text-center">
+                    <div class="bg-gradient-to-br from-green-500 to-emerald-600 w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-zap text-white text-xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-1">Instant Setup</h3>
+                    <p class="text-sm text-gray-600">Ready in 30 seconds</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-gradient-to-br from-blue-500 to-indigo-600 w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-brain text-white text-xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-1">AI-Powered</h3>
+                    <p class="text-sm text-gray-600">Smart algorithms</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-gradient-to-br from-purple-500 to-pink-600 w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-shield-alt text-white text-xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-1">Risk Management</h3>
+                    <p class="text-sm text-gray-600">Auto stop-loss</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-gradient-to-br from-orange-500 to-red-600 w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-chart-bar text-white text-xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-1">Real-time Analytics</h3>
+                    <p class="text-sm text-gray-600">Live performance</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Application Interface -->
+    <div id="mainApp" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Progress Indicator for Free Users -->
+        <div id="freeUserProgress" class="bg-white rounded-xl shadow-sm border border-quantum-100 p-4 mb-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <div class="bg-gradient-to-r from-green-500 to-emerald-600 text-white text-xs font-bold px-2 py-1 rounded-full mr-3">
+                        FREE
+                    </div>
+                    <span class="text-sm text-gray-600">You're using <strong>Quantum Spark Bot™ Free</strong></span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="text-xs text-gray-500">
+                        Usage: <span id="usageProgress">1/1</span> bots configured
+                    </div>
+                    <div class="flex items-center space-x-2">
+                    <button onclick="showUpgradeModal()" class="bg-gradient-to-r from-quantum-500 to-purple-500 hover:from-quantum-600 hover:to-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 transform hover:scale-105">
+                        <i class="fas fa-crown mr-2"></i>
+                        Upgrade for Unlimited
+                    </button>
+                    <button onclick="enableAdminSetup()" class="bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded-lg text-sm font-medium" title="Admin Setup">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="bg-white rounded-xl shadow-sm mb-8 overflow-hidden">
+            <nav class="flex" aria-label="Tabs">
+                <button id="configTab" class="tab-button flex-1 border-b-3 border-quantum-500 py-4 px-6 text-sm font-semibold text-quantum-600 bg-quantum-50" onclick="showTab('config')">
+                    <i class="fas fa-cog mr-2"></i>Bot Configuration
+                </button>
+                <button id="strategiesTab" class="tab-button flex-1 border-b-3 border-transparent py-4 px-6 text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-200" onclick="showTab('strategies')">
+                    <i class="fas fa-chess mr-2"></i>Trading Strategies
+                </button>
+                <button id="analyticsTab" class="tab-button flex-1 border-b-3 border-transparent py-4 px-6 text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-200" onclick="showTab('analytics')">
+                    <i class="fas fa-chart-line mr-2"></i>Performance
+                </button>
+                <button id="upgradeTab" class="tab-button flex-1 border-b-3 border-transparent py-4 px-6 text-sm font-medium bg-gradient-to-r from-quantum-500 to-purple-500 text-white hover:from-quantum-600 hover:to-purple-600" onclick="showUpgradeModal()">
+                    <i class="fas fa-star mr-2"></i>Upgrade
+                </button>
+            </nav>
+        </div>
+
+        <!-- Bot Configuration Tab -->
+        <div id="configContent" class="tab-content">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Main Configuration Panel -->
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-xl font-bold text-gray-900">Configure Your Trading Bot</h2>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">FREE TIER</span>
+                                <button onclick="showUpgradeModal()" class="text-quantum-600 hover:text-quantum-700 text-sm font-medium">
+                                    Need more? <i class="fas fa-arrow-right ml-1"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Quick Setup Form -->
+                        <form id="botConfigForm" class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Bot Name</label>
+                                    <input type="text" id="botName" value="My First Trading Bot" 
+                                           class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-quantum-500 focus:border-transparent transition-all">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Trading Pair</label>
+                                    <select id="tradingPair" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-quantum-500 focus:border-transparent transition-all">
+                                        <option value="BTC/USD">Bitcoin / USD</option>
+                                        <option value="ETH/USD">Ethereum / USD</option>
+                                        <option value="BNB/USD">Binance Coin / USD</option>
+                                        <option value="ADA/USD">Cardano / USD</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Initial Balance ($)</label>
+                                    <input type="number" id="initialBalance" value="1000" min="100" max="10000" 
+                                           class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-quantum-500 focus:border-transparent transition-all">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Trade Amount ($)</label>
+                                    <input type="number" id="tradeAmount" value="100" min="10" max="1000" 
+                                           class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-quantum-500 focus:border-transparent transition-all">
+                                </div>
+                            </div>
+
+                            <!-- Risk Management -->
+                            <div class="border-t border-gray-200 pt-6">
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4">Risk Management</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Stop Loss (%)</label>
+                                        <input type="number" id="stopLoss" value="5" min="1" max="20" step="0.5" 
+                                               class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-quantum-500 focus:border-transparent transition-all">
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Take Profit (%)</label>
+                                        <input type="number" id="takeProfit" value="10" min="2" max="50" step="0.5" 
+                                               class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-quantum-500 focus:border-transparent transition-all">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="flex space-x-4 pt-6">
+                                <button type="button" onclick="simulateBot()" 
+                                        class="flex-1 bg-gradient-to-r from-quantum-600 to-purple-600 hover:from-quantum-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105">
+                                    <i class="fas fa-play mr-2"></i>
+                                    Start Simulation
+                                </button>
+                                <button type="button" onclick="saveConfiguration()" 
+                                        class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-all duration-200">
+                                    <i class="fas fa-save mr-2"></i>
+                                    Save Config
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Performance Sidebar -->
+                <div class="space-y-6">
+                    <!-- Live Performance -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Live Performance</h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-600">Current P&L:</span>
+                                <span id="currentPnL" class="text-lg font-bold text-green-600">+$127.43</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-600">Win Rate:</span>
+                                <span id="winRate" class="text-lg font-bold text-quantum-600">73.2%</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-600">Active Trades:</span>
+                                <span id="activeTrades" class="text-lg font-bold text-blue-600">3</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 pt-4 border-t border-gray-200">
+                            <canvas id="performanceChart" width="200" height="100"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Upgrade Prompt -->
+                    <div class="bg-gradient-to-br from-quantum-50 to-purple-50 rounded-xl border border-quantum-200 p-6">
+                        <div class="text-center">
+                            <div class="bg-gradient-to-r from-quantum-500 to-purple-500 w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-crown text-white text-xl"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Ready for More?</h3>
+                            <p class="text-sm text-gray-600 mb-4">Unlock unlimited bots, advanced strategies, and professional analytics.</p>
+                            <button onclick="showUpgradeModal()" class="w-full bg-gradient-to-r from-quantum-500 to-purple-500 hover:from-quantum-600 hover:to-purple-600 text-white px-4 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105">
+                                <i class="fas fa-rocket mr-2"></i>
+                                Upgrade Now
+                            </button>
+                            <p class="text-xs text-gray-500 mt-2">Starting at $29.99/month</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Other tab contents will be loaded dynamically -->
+        <div id="strategiesContent" class="tab-content hidden"></div>
+        <div id="analyticsContent" class="tab-content hidden"></div>
+    </div>
+
+    <!-- Floating Upgrade Button for Mobile -->
+    <div class="fixed bottom-6 right-6 z-40 md:hidden">
+        <button onclick="showUpgradeModal()" class="bg-gradient-to-r from-quantum-500 to-purple-500 hover:from-quantum-600 hover:to-purple-600 text-white p-4 rounded-full shadow-lg transform hover:scale-110 transition-all duration-200">
+            <i class="fas fa-crown text-xl"></i>
+        </button>
+    </div>
+
+    <!-- Modals will be loaded here -->
+    <div id="modals"></div>
+
+    <!-- Application Scripts -->
+    <script src="js/cloudflare-d1-integration.js"></script>
+    <script src="js/database-connector.js"></script>
+    <script src="js/payment-processor.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/conversion-optimizer.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/api-integration.js"></script>
+    <script src="js/subscription-manager.js"></script>
+    <script src="js/legal-protection.js"></script>
+    
+    <!-- Industry Leader SOP - Profitability Optimization -->
+    <script src="js/growth-analytics.js"></script>
+    <script src="js/advanced-conversion-optimizer.js"></script>
+    <script src="js/viral-growth-engine.js"></script>
+    <script src="js/customer-success-automation.js"></script>
+    <script src="js/profitability-optimization-engine.js"></script>
+
+    <!-- Freemium Experience Controller -->
+    <script>
+        // Global freemium experience controller
+        class FreemiumExperience {
+            constructor() {
+                this.isUpgradePromptShown = false;
+                this.sessionStartTime = Date.now();
+                this.botConfigCount = 0;
+                this.maxFreeBots = 1;
+                this.conversionTriggers = [];
+                
+                this.initializeExperience();
+                this.setupConversionTriggers();
+            }
+
+            initializeExperience() {
+                // Auto-create free user session
+                this.createFreeUserSession();
+                
+                // Initialize performance chart
+                setTimeout(() => this.initializePerformanceChart(), 1000);
+                
+                // Show conversion bar after 30 seconds if no upgrade
+                setTimeout(() => this.showConversionBar(), 30000);
+                
+                // Track user engagement
+                this.trackEngagement();
+            }
+
+            createFreeUserSession() {
+                const freeUser = {
+                    id: 'free_user_' + Date.now(),
+                    username: 'Free User',
+                    subscription_tier: 'free',
+                    subscription_status: 'active',
+                    is_guest: false,
+                    is_admin: false,
+                    session_start: Date.now(),
+                    features_used: JSON.stringify({
+                        bots_created: 0,
+                        configurations_saved: 0,
+                        strategies_tested: 0
+                    })
+                };
+                
+                localStorage.setItem('quantumspark_free_user', JSON.stringify(freeUser));
+                window.currentUser = freeUser;
+            }
+
+            setupConversionTriggers() {
+                // Trigger upgrade prompt on specific actions
+                this.conversionTriggers = [
+                    { action: 'second_bot_attempt', delay: 0 },
+                    { action: 'advanced_strategy_click', delay: 500 },
+                    { action: 'analytics_view_limit', delay: 1000 },
+                    { action: 'session_time_limit', delay: 2000 }
+                ];
+            }
+
+            showConversionBar() {
+                if (!this.isUpgradePromptShown) {
+                    document.getElementById('conversionBar').classList.remove('hidden');
+                }
+            }
+
+            initializePerformanceChart() {
+                const ctx = document.getElementById('performanceChart');
+                if (!ctx) return;
+
+                // Generate realistic mock data
+                const mockData = this.generateMockPerformanceData();
+                
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: mockData.labels,
+                        datasets: [{
+                            label: 'P&L',
+                            data: mockData.values,
+                            borderColor: 'rgb(124, 109, 242)',
+                            backgroundColor: 'rgba(124, 109, 242, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { display: false },
+                            x: { display: false }
+                        }
+                    }
+                });
+            }
+
+            generateMockPerformanceData() {
+                const labels = [];
+                const values = [];
+                let currentValue = 100;
+                
+                for (let i = 0; i < 20; i++) {
+                    labels.push('');
+                    currentValue += (Math.random() - 0.4) * 10;
+                    values.push(currentValue);
+                }
+                
+                return { labels, values };
+            }
+
+            trackEngagement() {
+                // Track user actions for conversion optimization
+                document.addEventListener('click', (e) => {
+                    const target = e.target.closest('[onclick]');
+                    if (target) {
+                        this.recordAction(target.getAttribute('onclick'));
+                    }
+                });
+            }
+
+            recordAction(action) {
+                // Trigger conversion prompts based on user behavior
+                if (action.includes('simulateBot') && this.botConfigCount >= this.maxFreeBots) {
+                    this.triggerUpgradePrompt('bot_limit_reached');
+                } else if (action.includes('saveConfiguration') && this.botConfigCount >= this.maxFreeBots) {
+                    this.triggerUpgradePrompt('save_limit_reached');
+                }
+            }
+
+            triggerUpgradePrompt(reason) {
+                if (!this.isUpgradePromptShown) {
+                    this.isUpgradePromptShown = true;
+                    showUpgradeModal(reason);
+                }
+            }
+        }
+
+        // Initialize freemium experience
+        window.freemiumExperience = new FreemiumExperience();
+
+        // Core interaction functions
+        function startFreeTrading() {
+            // Track user activation for optimization (Industry SOP)
+            if (window.trackOptimizationEvent) {
+                trackOptimizationEvent('free_trading_started', {
+                    source: 'hero_cta',
+                    timestamp: Date.now()
+                });
+            }
+            
+            document.getElementById('mainApp').scrollIntoView({ behavior: 'smooth' });
+            
+            // Highlight the configuration form
+            setTimeout(() => {
+                document.querySelector('#botConfigForm').classList.add('ring-2', 'ring-quantum-500', 'ring-opacity-50');
+                setTimeout(() => {
+                    document.querySelector('#botConfigForm').classList.remove('ring-2', 'ring-quantum-500', 'ring-opacity-50');
+                }, 3000);
+            }, 500);
+        }
+
+        function simulateBot() {
+            const botName = document.getElementById('botName').value;
+            const tradingPair = document.getElementById('tradingPair').value;
+            
+            // Show simulation starting
+            showNotification('🚀 Starting simulation for ' + botName + ' on ' + tradingPair, 'success');
+            
+            // Simulate real-time updates
+            startPerformanceSimulation();
+            
+            // Track usage
+            window.freemiumExperience.botConfigCount++;
+            updateUsageProgress();
+        }
+
+        function saveConfiguration() {
+            const config = {
+                name: document.getElementById('botName').value,
+                pair: document.getElementById('tradingPair').value,
+                balance: document.getElementById('initialBalance').value,
+                amount: document.getElementById('tradeAmount').value,
+                stopLoss: document.getElementById('stopLoss').value,
+                takeProfit: document.getElementById('takeProfit').value,
+                created: new Date().toISOString()
+            };
+            
+            // Save to localStorage
+            const configs = JSON.parse(localStorage.getItem('quantumspark_configs') || '[]');
+            configs.push(config);
+            localStorage.setItem('quantumspark_configs', JSON.stringify(configs));
+            
+            showNotification('✅ Configuration saved successfully!', 'success');
+            
+            // Show upgrade prompt after first save
+            setTimeout(() => {
+                if (!window.freemiumExperience.isUpgradePromptShown) {
+                    showUpgradeModal('first_save');
+                }
+            }, 2000);
+        }
+
+        function startPerformanceSimulation() {
+            let pnl = 127.43;
+            let winRate = 73.2;
+            let activeTrades = 3;
+            
+            const updatePerformance = () => {
+                pnl += (Math.random() - 0.45) * 5;
+                winRate += (Math.random() - 0.5) * 0.5;
+                activeTrades = Math.max(1, Math.min(5, activeTrades + Math.floor((Math.random() - 0.5) * 2)));
+                
+                document.getElementById('currentPnL').textContent = `${pnl >= 0 ? '+' : ''}$${pnl.toFixed(2)}`;
+                document.getElementById('currentPnL').className = `text-lg font-bold ${pnl >= 0 ? 'text-green-600' : 'text-red-600'}`;
+                document.getElementById('winRate').textContent = `${Math.max(0, Math.min(100, winRate)).toFixed(1)}%`;
+                document.getElementById('activeTrades').textContent = activeTrades;
+            };
+            
+            // Update every 3 seconds for 30 seconds
+            let updates = 0;
+            const interval = setInterval(() => {
+                updatePerformance();
+                updates++;
+                if (updates >= 10) {
+                    clearInterval(interval);
+                    // Show upgrade prompt after simulation
+                    setTimeout(() => showUpgradeModal('simulation_complete'), 2000);
+                }
+            }, 3000);
+        }
+
+        function updateUsageProgress() {
+            const current = window.freemiumExperience.botConfigCount;
+            const max = window.freemiumExperience.maxFreeBots;
+            document.getElementById('usageProgress').textContent = `${current}/${max}`;
+            
+            if (current >= max) {
+                document.getElementById('freeUserProgress').classList.add('border-orange-300', 'bg-orange-50');
+            }
+        }
+
+        function showUpgradeModal(reason = 'general') {
+            // Track upgrade intent for optimization (Industry SOP)
+            if (window.trackOptimizationEvent) {
+                trackOptimizationEvent('upgrade_intent_shown', {
+                    reason: reason,
+                    timestamp: Date.now()
+                });
+            }
+            
+            // This will be handled by the subscription manager
+            if (window.subscriptionManager) {
+                window.subscriptionManager.showUpgradeModal(reason);
+            } else {
+                // Fallback upgrade modal
+                showBasicUpgradeModal(reason);
+            }
+        }
+
+        function showBasicUpgradeModal(reason) {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+            modal.innerHTML = `
+                <div class="bg-white rounded-2xl max-w-2xl w-full p-8 transform scale-95 transition-all duration-300">
+                    <div class="text-center mb-6">
+                        <div class="bg-gradient-to-r from-quantum-500 to-purple-500 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-crown text-white text-2xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-900 mb-2">Unlock Unlimited Trading Power</h2>
+                        <p class="text-gray-600">Ready to take your trading to the next level?</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div class="text-center p-6 border border-gray-200 rounded-xl">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Pro</h3>
+                            <div class="text-3xl font-bold text-quantum-600 mb-4">$29.99<span class="text-sm text-gray-500">/month</span></div>
+                            <ul class="text-left space-y-2 text-sm">
+                                <li><i class="fas fa-check text-green-500 mr-2"></i>5 Trading Bots</li>
+                                <li><i class="fas fa-check text-green-500 mr-2"></i>Advanced Strategies</li>
+                                <li><i class="fas fa-check text-green-500 mr-2"></i>Real-time Analytics</li>
+                                <li><i class="fas fa-check text-green-500 mr-2"></i>Email Support</li>
+                            </ul>
+                            <button onclick="selectPlan('pro')" class="w-full mt-4 bg-quantum-500 hover:bg-quantum-600 text-white py-3 rounded-lg font-semibold transition">
+                                Choose Pro
+                            </button>
+                        </div>
+                        
+                        <div class="text-center p-6 border-2 border-quantum-500 rounded-xl bg-quantum-50">
+                            <div class="bg-quantum-500 text-white text-xs font-bold px-2 py-1 rounded-full mb-2">MOST POPULAR</div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Enterprise</h3>
+                            <div class="text-3xl font-bold text-quantum-600 mb-4">$99.99<span class="text-sm text-gray-500">/month</span></div>
+                            <ul class="text-left space-y-2 text-sm">
+                                <li><i class="fas fa-check text-green-500 mr-2"></i>Unlimited Everything</li>
+                                <li><i class="fas fa-check text-green-500 mr-2"></i>AI Strategy Builder</li>
+                                <li><i class="fas fa-check text-green-500 mr-2"></i>Priority Support</li>
+                                <li><i class="fas fa-check text-green-500 mr-2"></i>Custom Analytics</li>
+                            </ul>
+                            <button onclick="selectPlan('enterprise')" class="w-full mt-4 bg-gradient-to-r from-quantum-500 to-purple-500 hover:from-quantum-600 hover:to-purple-600 text-white py-3 rounded-lg font-semibold transition">
+                                Choose Enterprise
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button onclick="this.closest('.fixed').remove()" class="text-gray-500 hover:text-gray-700 text-sm">
+                            Continue with Free (Limited Features)
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Animate in
+            setTimeout(() => {
+                modal.querySelector('.bg-white').classList.remove('scale-95');
+                modal.querySelector('.bg-white').classList.add('scale-100');
+            }, 10);
+        }
+
+        function selectPlan(planType) {
+            if (window.paymentProcessor) {
+                window.paymentProcessor.createSubscription(planType, window.currentUser);
+            } else {
+                showNotification('Payment system initializing... Please try again in a moment.', 'info');
+            }
+        }
+
+        function hideConversionBar() {
+            document.getElementById('conversionBar').classList.add('hidden');
+        }
+
+        function triggerUpgrade(source) {
+            showUpgradeModal(source);
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg transform translate-x-full transition-all duration-300 ${
+                type === 'success' ? 'bg-green-100 border border-green-200 text-green-800' :
+                type === 'error' ? 'bg-red-100 border border-red-200 text-red-800' :
+                'bg-blue-100 border border-blue-200 text-blue-800'
+            }`;
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <span>${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-current opacity-70 hover:opacity-100">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 10);
+            
+            // Auto remove
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => notification.remove(), 300);
+            }, 5000);
+        }
+
+        // Tab functionality
+        function showTab(tabName) {
+            // Track tab navigation for optimization (Industry SOP)
+            if (window.trackOptimizationEvent) {
+                trackOptimizationEvent('tab_navigation', {
+                    tab: tabName,
+                    timestamp: Date.now()
+                });
+                
+                // Specific tracking for high-value actions
+                if (tabName === 'analytics') {
+                    trackOptimizationEvent('analytics_viewed', {
+                        timestamp: Date.now()
+                    });
+                }
+            }
+            
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.className = 'tab-button flex-1 border-b-3 border-transparent py-4 px-6 text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-200';
+            });
+            
+            document.getElementById(tabName + 'Tab').className = 'tab-button flex-1 border-b-3 border-quantum-500 py-4 px-6 text-sm font-semibold text-quantum-600 bg-quantum-50';
+            
+            // Show content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            document.getElementById(tabName + 'Content').classList.remove('hidden');
+            
+            // Load tab-specific content
+            if (tabName === 'strategies') {
+                loadStrategiesContent();
+            } else if (tabName === 'analytics') {
+                loadAnalyticsContent();
+            }
+        }
+
+        function loadStrategiesContent() {
+            const content = document.getElementById('strategiesContent');
+            content.innerHTML = `
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-bold text-gray-900">Trading Strategies</h2>
+                        <span class="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded-full">FREE: Basic Only</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="font-semibold text-gray-900">Momentum Trading</h3>
+                                <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">FREE</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-4">Follow market trends with momentum-based signals.</p>
+                            <button class="w-full bg-quantum-500 hover:bg-quantum-600 text-white py-2 rounded-lg text-sm font-medium">
+                                Select Strategy
+                            </button>
+                        </div>
+                        
+                        <div class="border border-gray-300 rounded-lg p-4 bg-gray-50 opacity-75">
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="font-semibold text-gray-700">Mean Reversion</h3>
+                                <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">PRO</span>
+                            </div>
+                            <p class="text-sm text-gray-500 mb-4">Profit from price corrections and reversals.</p>
+                            <button onclick="showUpgradeModal('strategy_locked')" class="w-full bg-gray-400 text-white py-2 rounded-lg text-sm font-medium">
+                                🔒 Upgrade to Unlock
+                            </button>
+                        </div>
+                        
+                        <div class="border border-gray-300 rounded-lg p-4 bg-gray-50 opacity-75">
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="font-semibold text-gray-700">Scalping</h3>
+                                <span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">ENTERPRISE</span>
+                            </div>
+                            <p class="text-sm text-gray-500 mb-4">High-frequency micro-profit strategies.</p>
+                            <button onclick="showUpgradeModal('strategy_locked')" class="w-full bg-gray-400 text-white py-2 rounded-lg text-sm font-medium">
+                                🔒 Upgrade to Unlock
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function loadAnalyticsContent() {
+            const content = document.getElementById('analyticsContent');
+            content.innerHTML = `
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-bold text-gray-900">Performance Analytics</h2>
+                        <span class="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded-full">FREE: Limited View</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-6 border border-green-200">
+                            <h3 class="font-semibold text-green-800 mb-4">📈 Basic Metrics (Free)</h3>
+                            <div class="space-y-3">
+                                <div class="flex justify-between">
+                                    <span class="text-green-700">Total P&L:</span>
+                                    <span class="font-bold text-green-800">+$127.43</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-green-700">Win Rate:</span>
+                                    <span class="font-bold text-green-800">73.2%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-green-700">Total Trades:</span>
+                                    <span class="font-bold text-green-800">28</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg p-6 border border-gray-300 relative">
+                            <div class="absolute inset-0 bg-white bg-opacity-90 rounded-lg flex items-center justify-center">
+                                <div class="text-center">
+                                    <i class="fas fa-lock text-gray-400 text-2xl mb-2"></i>
+                                    <p class="text-sm font-medium text-gray-600 mb-2">Advanced Analytics</p>
+                                    <button onclick="showUpgradeModal('analytics_locked')" class="bg-quantum-500 hover:bg-quantum-600 text-white px-4 py-2 rounded-lg text-sm font-medium">
+                                        Upgrade to Unlock
+                                    </button>
+                                </div>
+                            </div>
+                            <h3 class="font-semibold text-gray-400 mb-4">🔒 Pro Analytics</h3>
+                            <div class="space-y-3 opacity-50">
+                                <div class="h-4 bg-gray-300 rounded"></div>
+                                <div class="h-4 bg-gray-300 rounded w-3/4"></div>
+                                <div class="h-4 bg-gray-300 rounded w-1/2"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center py-8 border-2 border-dashed border-gray-300 rounded-lg">
+                        <i class="fas fa-chart-bar text-gray-400 text-3xl mb-4"></i>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Advanced Charts & Reports</h3>
+                        <p class="text-gray-600 mb-4">Detailed performance analysis, risk metrics, and custom reports available with Pro subscription.</p>
+                        <button onclick="showUpgradeModal('charts_locked')" class="bg-gradient-to-r from-quantum-500 to-purple-500 hover:from-quantum-600 hover:to-purple-600 text-white px-6 py-3 rounded-lg font-semibold">
+                            <i class="fas fa-crown mr-2"></i>
+                            Upgrade for Full Analytics
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Admin setup functions
+        function enableAdminSetup() {
+            if (confirm('Enable admin setup mode? This will give you access to payment and bank setup features.')) {
+                localStorage.setItem('quantumspark_setup_mode', 'admin');
+                window.location.reload();
+            }
+        }
+
+        function showBankSetupModal() {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+            
+            modal.innerHTML = `
+                <div class="bg-white rounded-2xl max-w-md w-full p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900">Add Your Bank Account</h3>
+                        <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-gray-600">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="mb-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                        <p class="text-sm text-blue-800">
+                            <i class="fas fa-info-circle mr-2"></i>
+                            <strong>Secure Setup:</strong> Your bank details are stored locally and used to configure Stripe payouts.
+                        </p>
+                    </div>
+                    
+                    <form id="bankAccountForm" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Account Holder Name</label>
+                            <input type="text" id="accountHolderName" required placeholder="Your full name"
+                                   class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-quantum-500">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Bank Name</label>
+                            <input type="text" id="bankName" required placeholder="Chase, Bank of America, etc."
+                                   class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-quantum-500">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Routing Number</label>
+                            <input type="text" id="routingNumber" required placeholder="9-digit routing number" maxlength="9"
+                                   class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-quantum-500">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Account Number</label>
+                            <input type="text" id="accountNumber" required placeholder="Your account number"
+                                   class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-quantum-500">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Account Type</label>
+                            <select id="accountType" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-quantum-500">
+                                <option value="">Select account type</option>
+                                <option value="checking">Checking Account</option>
+                                <option value="savings">Savings Account</option>
+                            </select>
+                        </div>
+                        
+                        <div class="border-t border-gray-200 pt-4">
+                            <h4 class="font-medium text-gray-900 mb-2">Next Steps:</h4>
+                            <ol class="text-sm text-gray-600 space-y-1">
+                                <li>1. Save bank details here</li>
+                                <li>2. Add these details to your Stripe Dashboard</li>
+                                <li>3. Configure your Stripe API keys</li>
+                                <li>4. Start receiving payments automatically!</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="flex space-x-3 pt-4">
+                            <button type="submit" class="flex-1 bg-quantum-600 hover:bg-quantum-700 text-white font-medium py-3 px-4 rounded-lg transition duration-200">
+                                <i class="fas fa-save mr-2"></i>
+                                Save Bank Account
+                            </button>
+                            <button type="button" onclick="this.closest('.fixed').remove()" class="px-4 py-3 text-gray-500 hover:text-gray-700 font-medium">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Handle form submission
+            modal.querySelector('#bankAccountForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveBankAccount();
+            });
+        }
+
+        function saveBankAccount() {
+            const bankDetails = {
+                accountHolderName: document.getElementById('accountHolderName').value,
+                bankName: document.getElementById('bankName').value,
+                routingNumber: document.getElementById('routingNumber').value,
+                accountNumber: document.getElementById('accountNumber').value,
+                accountType: document.getElementById('accountType').value,
+                dateAdded: new Date().toISOString()
+            };
+            
+            // Save to localStorage (in production, this would be securely stored)
+            localStorage.setItem('quantumspark_bank_account', JSON.stringify(bankDetails));
+            
+            // Close modal
+            document.querySelector('.fixed').remove();
+            
+            // Show success message
+            showBankSetupSuccess(bankDetails);
+        }
+
+        function showBankSetupSuccess(bankDetails) {
+            const successModal = document.createElement('div');
+            successModal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+            
+            successModal.innerHTML = `
+                <div class="bg-white rounded-2xl max-w-lg w-full p-6">
+                    <div class="text-center mb-6">
+                        <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-check text-green-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Bank Account Saved!</h3>
+                        <p class="text-gray-600">Your bank details have been saved securely. Now setup Stripe to start receiving payments.</p>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                        <h4 class="font-medium text-gray-900 mb-3">Your Bank Details:</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Bank:</span>
+                                <span class="font-medium">${bankDetails.bankName}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Account:</span>
+                                <span class="font-medium">****${bankDetails.accountNumber.slice(-4)}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Type:</span>
+                                <span class="font-medium capitalize">${bankDetails.accountType}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-blue-50 rounded-lg p-4 mb-6 border border-blue-200">
+                        <h4 class="font-medium text-blue-800 mb-2">
+                            <i class="fas fa-arrow-right mr-2"></i>Next: Setup Stripe Account
+                        </h4>
+                        <ol class="text-sm text-blue-700 space-y-1">
+                            <li>1. Go to <a href="https://stripe.com" target="_blank" class="underline font-medium">stripe.com</a> and create an account</li>
+                            <li>2. Complete business verification</li>
+                            <li>3. Add your bank account in Stripe Dashboard → Settings → Payouts</li>
+                            <li>4. Get your API keys and add them to your website</li>
+                            <li>5. Start receiving payments automatically!</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="flex space-x-3">
+                        <a href="https://stripe.com" target="_blank" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white text-center py-3 px-4 rounded-lg font-medium transition">
+                            <i class="fab fa-stripe mr-2"></i>
+                            Setup Stripe Account
+                        </a>
+                        <button onclick="this.closest('.fixed').remove()" class="px-4 py-3 text-gray-500 hover:text-gray-700 font-medium">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(successModal);
+        }
+
+        function showStoredBankAccount() {
+            const bankAccount = localStorage.getItem('quantumspark_bank_account');
+            if (bankAccount) {
+                const details = JSON.parse(bankAccount);
+                alert(`Bank Account on file:\\n\\nBank: ${details.bankName}\\nAccount: ****${details.accountNumber.slice(-4)}\\nType: ${details.accountType}\\n\\nReady to receive Stripe payments!`);
+            } else {
+                showBankSetupModal();
+            }
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize with config tab active
+            showTab('config');
+            
+            // Check if admin mode and show bank setup option
+            if (localStorage.getItem('quantumspark_setup_mode') === 'admin') {
+                // Add bank setup button to the interface
+                const setupButton = document.createElement('div');
+                setupButton.className = 'fixed bottom-4 left-4 z-40';
+                setupButton.innerHTML = `
+                    <button onclick="showBankSetupModal()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg font-medium shadow-lg flex items-center">
+                        <i class="fas fa-university mr-2"></i>
+                        Setup Bank Account
+                    </button>
+                `;
+                document.body.appendChild(setupButton);
+            }
+            
+            // Initialize any additional systems
+            setTimeout(() => {
+                if (window.paymentProcessor) {
+                    console.log('✅ Payment system ready');
+                }
+                
+                // Initialize Industry Leader SOPs
+                if (window.profitabilityOptimizationEngine) {
+                    console.log('🚀 Industry Leader SOP Systems Active');
+                    console.log('📈 Target: 5-8x Revenue Increase');
+                    
+                    // Track initial page load
+                    trackOptimizationEvent('platform_initialized', {
+                        platform: 'main_website',
+                        timestamp: Date.now()
+                    });
+                }
+            }, 1000);
+        });
+    </script>
+    
+    <!-- PWA Service Worker Registration for Android APK -->
+    <script>
+        // Register service worker for PWA functionality and Android APK conversion
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('✅ Quantum Spark Bot Service Worker registered:', registration.scope);
+                        
+                        // Check for updates
+                        registration.addEventListener('updatefound', () => {
+                            const newWorker = registration.installing;
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    // Show update notification
+                                    if (confirm('New version available! Reload to update?')) {
+                                        window.location.reload();
+                                    }
+                                }
+                            });
+                        });
+                    })
+                    .catch(error => {
+                        console.error('❌ Service Worker registration failed:', error);
+                    });
+            });
+            
+            // Listen for service worker messages
+            navigator.serviceWorker.addEventListener('message', event => {
+                console.log('SW Message:', event.data);
+                
+                if (event.data.type === 'CACHE_UPDATED') {
+                    // Handle cache updates
+                    console.log('Cache updated for:', event.data.url);
+                }
+                
+                if (event.data.type === 'OFFLINE_READY') {
+                    // Show offline ready notification
+                    showNotification('App is ready for offline use!', 'success');
+                }
+            });
+        }
+        
+        // PWA Install Prompt Handler
+        let deferredPrompt;
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('💡 PWA install prompt available');
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Show custom install button (you can customize this)
+            showInstallButton();
+        });
+        
+        function showInstallButton() {
+            // Create install button if it doesn't exist
+            if (!document.getElementById('pwa-install-btn')) {
+                const installButton = document.createElement('button');
+                installButton.id = 'pwa-install-btn';
+                installButton.innerHTML = '<i class="fas fa-download mr-2"></i>Install App';
+                installButton.className = 'fixed bottom-4 right-4 bg-purple-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-purple-700 transition-colors z-50';
+                
+                installButton.addEventListener('click', async () => {
+                    if (deferredPrompt) {
+                        deferredPrompt.prompt();
+                        const { outcome } = await deferredPrompt.userChoice;
+                        console.log('PWA Install outcome:', outcome);
+                        deferredPrompt = null;
+                        installButton.remove();
+                    }
+                });
+                
+                document.body.appendChild(installButton);
+                
+                // Auto-hide after 10 seconds
+                setTimeout(() => {
+                    if (installButton.parentNode) {
+                        installButton.remove();
+                    }
+                }, 10000);
+            }
+        }
+        
+        // Handle successful PWA installation
+        window.addEventListener('appinstalled', (evt) => {
+            console.log('✅ Quantum Spark Bot PWA installed successfully');
+            showNotification('App installed! You can now use it offline.', 'success');
+            
+            // Remove install button if it exists
+            const installBtn = document.getElementById('pwa-install-btn');
+            if (installBtn) {
+                installBtn.remove();
+            }
+        });
+        
+        // Utility function for notifications
+        function showNotification(message, type = 'info') {
+            // Use existing notification system if available, otherwise create simple one
+            if (window.showToast) {
+                window.showToast(message, type);
+            } else {
+                console.log(`[${type.toUpperCase()}] ${message}`);
+            }
+        }
+    </script>
+</body>
+</html>

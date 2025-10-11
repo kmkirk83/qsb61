@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Spark Bot™ - Admin Dashboard</title>
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- Styles -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- PWA Meta Tags for Android APK -->
+    <link rel="manifest" href="admin-manifest.json">
+    <meta name="theme-color" content="#7c3aed">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Quantum Admin">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 'inter': ['Inter', 'sans-serif'] },
+                    colors: {
+                        'admin': {
+                            50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1',
+                            400: '#94a3b8', 500: '#64748b', 600: '#475569', 700: '#334155',
+                            800: '#1e293b', 900: '#0f172a'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .admin-sidebar { transition: transform 0.3s ease-in-out; }
+        .admin-sidebar.collapsed { transform: translateX(-100%); }
+        @media (min-width: 1024px) {
+            .admin-sidebar.collapsed { transform: translateX(0); width: 80px; }
+            .admin-sidebar.collapsed .sidebar-text { display: none; }
+            .admin-sidebar.collapsed .sidebar-icon { margin: 0 auto; }
+        }
+    </style>
+</head>
+<body class="bg-admin-50 font-inter">
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="fixed inset-0 bg-white flex items-center justify-center z-50">
+        <div class="text-center">
+            <div class="bg-gradient-to-r from-purple-600 to-blue-600 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 animate-pulse">
+                <i class="fas fa-crown text-white text-2xl"></i>
+            </div>
+            <h2 class="text-xl font-bold text-gray-900 mb-2">Quantum Spark Bot™</h2>
+            <p class="text-gray-600">Loading Admin Dashboard...</p>
+            <div class="mt-4 w-48 h-2 bg-gray-200 rounded-full mx-auto overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-purple-600 to-blue-600 rounded-full animate-pulse"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Layout -->
+    <div id="mainLayout" class="hidden min-h-screen flex">
+        <!-- Sidebar -->
+        <aside id="adminSidebar" class="admin-sidebar bg-white shadow-xl w-64 fixed lg:relative h-full z-40">
+            <div class="p-6 border-b border-admin-200">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="bg-gradient-to-r from-purple-600 to-blue-600 w-10 h-10 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-crown text-white sidebar-icon"></i>
+                        </div>
+                        <div class="ml-3 sidebar-text">
+                            <h1 class="text-lg font-bold text-gray-900">Quantum Admin</h1>
+                            <p class="text-sm text-gray-500">Control Panel</p>
+                        </div>
+                    </div>
+                    <button onclick="toggleSidebar()" class="lg:hidden text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <nav class="p-4 space-y-2">
+                <a href="#dashboard" onclick="showSection('dashboard')" class="nav-item flex items-center p-3 rounded-lg bg-purple-50 text-purple-700 border border-purple-200">
+                    <i class="fas fa-tachometer-alt sidebar-icon w-5"></i>
+                    <span class="ml-3 sidebar-text font-medium">Dashboard</span>
+                </a>
+                
+                <a href="#users" onclick="showSection('users')" class="nav-item flex items-center p-3 rounded-lg text-gray-600 hover:bg-gray-50">
+                    <i class="fas fa-users sidebar-icon w-5"></i>
+                    <span class="ml-3 sidebar-text">Users & Subscriptions</span>
+                </a>
+                
+                <a href="#payments" onclick="showSection('payments')" class="nav-item flex items-center p-3 rounded-lg text-gray-600 hover:bg-gray-50">
+                    <i class="fas fa-credit-card sidebar-icon w-5"></i>
+                    <span class="ml-3 sidebar-text">Payment Settings</span>
+                </a>
+                
+                <a href="#analytics" onclick="showSection('analytics')" class="nav-item flex items-center p-3 rounded-lg text-gray-600 hover:bg-gray-50">
+                    <i class="fas fa-chart-bar sidebar-icon w-5"></i>
+                    <span class="ml-3 sidebar-text">Analytics & Reports</span>
+                </a>
+                
+                <a href="#content" onclick="showSection('content')" class="nav-item flex items-center p-3 rounded-lg text-gray-600 hover:bg-gray-50">
+                    <i class="fas fa-edit sidebar-icon w-5"></i>
+                    <span class="ml-3 sidebar-text">Content Management</span>
+                </a>
+                
+                <a href="#system" onclick="showSection('system')" class="nav-item flex items-center p-3 rounded-lg text-gray-600 hover:bg-gray-50">
+                    <i class="fas fa-cog sidebar-icon w-5"></i>
+                    <span class="ml-3 sidebar-text">System Settings</span>
+                </a>
+                
+                <a href="#security" onclick="showSection('security')" class="nav-item flex items-center p-3 rounded-lg text-gray-600 hover:bg-gray-50">
+                    <i class="fas fa-shield-alt sidebar-icon w-5"></i>
+                    <span class="ml-3 sidebar-text">Security & Backup</span>
+                </a>
+                
+                <a href="#logs" onclick="showSection('logs')" class="nav-item flex items-center p-3 rounded-lg text-gray-600 hover:bg-gray-50">
+                    <i class="fas fa-clipboard-list sidebar-icon w-5"></i>
+                    <span class="ml-3 sidebar-text">Activity Logs</span>
+                </a>
+            </nav>
+            
+            <div class="absolute bottom-4 left-4 right-4 sidebar-text">
+                <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-3 rounded-lg border border-green-200">
+                    <div class="flex items-center justify-between text-sm">
+                        <span class="text-green-700 font-medium">System Status</span>
+                        <span class="flex items-center text-green-600">
+                            <div class="w-2 h-2 bg-green-500 rounded-full mr-1"></div>
+                            Online
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 lg:ml-0">
+            <!-- Header -->
+            <header class="bg-white shadow-sm border-b border-admin-200 p-4 lg:p-6">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <button onclick="toggleSidebar()" class="lg:hidden text-gray-400 hover:text-gray-600 mr-4">
+                            <i class="fas fa-bars text-xl"></i>
+                        </button>
+                        <div>
+                            <h2 id="sectionTitle" class="text-2xl font-bold text-gray-900">Dashboard Overview</h2>
+                            <p id="sectionDescription" class="text-gray-500">Monitor your Quantum Spark Bot™ platform</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4">
+                        <button onclick="refreshData()" class="bg-gray-100 hover:bg-gray-200 p-2 rounded-lg transition">
+                            <i class="fas fa-sync-alt text-gray-600"></i>
+                        </button>
+                        
+                        <div class="relative">
+                            <button onclick="toggleNotifications()" class="relative bg-gray-100 hover:bg-gray-200 p-2 rounded-lg transition">
+                                <i class="fas fa-bell text-gray-600"></i>
+                                <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                            </button>
+                            
+                            <div id="notificationsDropdown" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
+                                <div class="p-4 border-b border-gray-200">
+                                    <h3 class="font-semibold text-gray-900">Notifications</h3>
+                                </div>
+                                <div class="max-h-96 overflow-y-auto">
+                                    <div class="p-4 hover:bg-gray-50 border-b border-gray-100">
+                                        <div class="flex items-start space-x-3">
+                                            <div class="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+                                            <div>
+                                                <p class="text-sm font-medium text-gray-900">New Pro subscriber</p>
+                                                <p class="text-xs text-gray-500">john.doe@email.com upgraded to Pro plan</p>
+                                                <p class="text-xs text-gray-400 mt-1">2 minutes ago</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-4 hover:bg-gray-50 border-b border-gray-100">
+                                        <div class="flex items-start space-x-3">
+                                            <div class="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+                                            <div>
+                                                <p class="text-sm font-medium text-gray-900">Payment received</p>
+                                                <p class="text-xs text-gray-500">$29.99 from Enterprise subscription</p>
+                                                <p class="text-xs text-gray-400 mt-1">15 minutes ago</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-4 hover:bg-gray-50">
+                                        <div class="flex items-start space-x-3">
+                                            <div class="w-2 h-2 bg-orange-500 rounded-full mt-2"></div>
+                                            <div>
+                                                <p class="text-sm font-medium text-gray-900">System update available</p>
+                                                <p class="text-xs text-gray-500">New features and security improvements</p>
+                                                <p class="text-xs text-gray-400 mt-1">1 hour ago</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-2 bg-gray-100 rounded-lg p-2">
+                            <div class="w-8 h-8 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-user text-white text-sm"></i>
+                            </div>
+                            <div class="hidden sm:block">
+                                <p class="text-sm font-medium text-gray-900">Admin User</p>
+                                <p class="text-xs text-gray-500">Super Admin</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Sections -->
+            <div class="p-4 lg:p-6">
+                <!-- Dashboard Section -->
+                <div id="dashboard-section" class="admin-section">
+                    <!-- Quick Stats -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-white rounded-xl p-6 shadow-sm border border-admin-200">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600">Total Revenue</p>
+                                    <p class="text-2xl font-bold text-gray-900" id="totalRevenue">$12,847</p>
+                                    <p class="text-sm text-green-600 mt-1">
+                                        <i class="fas fa-arrow-up mr-1"></i>+12.5% this month
+                                    </p>
+                                </div>
+                                <div class="bg-green-100 w-12 h-12 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-dollar-sign text-green-600"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-xl p-6 shadow-sm border border-admin-200">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600">Active Users</p>
+                                    <p class="text-2xl font-bold text-gray-900" id="activeUsers">2,847</p>
+                                    <p class="text-sm text-blue-600 mt-1">
+                                        <i class="fas fa-arrow-up mr-1"></i>+8.2% this week
+                                    </p>
+                                </div>
+                                <div class="bg-blue-100 w-12 h-12 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-users text-blue-600"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-xl p-6 shadow-sm border border-admin-200">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600">Conversion Rate</p>
+                                    <p class="text-2xl font-bold text-gray-900" id="conversionRate">12.4%</p>
+                                    <p class="text-sm text-purple-600 mt-1">
+                                        <i class="fas fa-arrow-up mr-1"></i>+2.1% improvement
+                                    </p>
+                                </div>
+                                <div class="bg-purple-100 w-12 h-12 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-chart-line text-purple-600"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-xl p-6 shadow-sm border border-admin-200">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600">System Health</p>
+                                    <p class="text-2xl font-bold text-gray-900">99.9%</p>
+                                    <p class="text-sm text-green-600 mt-1">
+                                        <i class="fas fa-check mr-1"></i>All systems operational
+                                    </p>
+                                </div>
+                                <div class="bg-green-100 w-12 h-12 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-server text-green-600"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Charts Row -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                        <div class="bg-white rounded-xl p-6 shadow-sm border border-admin-200">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Revenue Trends</h3>
+                            <canvas id="revenueChart" height="200"></canvas>
+                        </div>
+                        
+                        <div class="bg-white rounded-xl p-6 shadow-sm border border-admin-200">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">User Growth</h3>
+                            <canvas id="userChart" height="200"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Activity -->
+                    <div class="bg-white rounded-xl p-6 shadow-sm border border-admin-200">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
+                        <div class="space-y-4" id="recentActivity">
+                            <!-- Activity items will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Users Section -->
+                <div id="users-section" class="admin-section hidden">
+                    <div class="bg-white rounded-xl shadow-sm border border-admin-200">
+                        <div class="p-6 border-b border-admin-200">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-lg font-semibold text-gray-900">User Management</h3>
+                                <div class="flex space-x-2">
+                                    <button onclick="exportUsers()" class="bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg text-sm font-medium transition">
+                                        <i class="fas fa-download mr-2"></i>Export
+                                    </button>
+                                    <button onclick="showAddUserModal()" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
+                                        <i class="fas fa-plus mr-2"></i>Add User
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="p-6">
+                            <div id="usersTable" class="overflow-x-auto">
+                                <!-- Users table will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Settings Section -->
+                <div id="payments-section" class="admin-section hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Stripe Settings -->
+                        <div class="bg-white rounded-xl p-6 shadow-sm border border-admin-200">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-indigo-100 w-10 h-10 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fab fa-stripe text-indigo-600"></i>
+                                </div>
+                                <h3 class="text-lg font-semibold text-gray-900">Stripe Configuration</h3>
+                            </div>
+                            
+                            <form id="stripeSettingsForm" class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Environment</label>
+                                    <select id="stripeEnvironment" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                        <option value="test">Test Mode</option>
+                                        <option value="live">Live Mode</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Publishable Key</label>
+                                    <input type="text" id="stripePublishableKey" placeholder="pk_test_..." 
+                                           class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Secret Key</label>
+                                    <input type="password" id="stripeSecretKey" placeholder="sk_test_..." 
+                                           class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                </div>
+                                
+                                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg font-medium transition">
+                                    Save Stripe Settings
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <!-- Bank Account Settings -->
+                        <div class="bg-white rounded-xl p-6 shadow-sm border border-admin-200">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-green-100 w-10 h-10 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-university text-green-600"></i>
+                                </div>
+                                <h3 class="text-lg font-semibold text-gray-900">Bank Account</h3>
+                            </div>
+                            
+                            <form id="bankAccountForm" class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Account Holder Name</label>
+                                    <input type="text" id="bankAccountHolder" 
+                                           class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Bank Name</label>
+                                    <input type="text" id="bankName" 
+                                           class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Routing Number</label>
+                                    <input type="text" id="bankRouting" maxlength="9" 
+                                           class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Account Number</label>
+                                    <input type="password" id="bankAccount" 
+                                           class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                </div>
+                                
+                                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg font-medium transition">
+                                    Save Bank Account
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other sections will be added here -->
+                <div id="analytics-section" class="admin-section hidden">
+                    <div class="text-center py-12">
+                        <i class="fas fa-chart-bar text-4xl text-gray-400 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Analytics Dashboard</h3>
+                        <p class="text-gray-600">Detailed analytics and reporting features coming soon...</p>
+                    </div>
+                </div>
+
+                <div id="content-section" class="admin-section hidden">
+                    <div class="text-center py-12">
+                        <i class="fas fa-edit text-4xl text-gray-400 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Content Management</h3>
+                        <p class="text-gray-600">Website content and settings management coming soon...</p>
+                    </div>
+                </div>
+
+                <div id="system-section" class="admin-section hidden">
+                    <div class="text-center py-12">
+                        <i class="fas fa-cog text-4xl text-gray-400 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">System Settings</h3>
+                        <p class="text-gray-600">Advanced system configuration coming soon...</p>
+                    </div>
+                </div>
+
+                <div id="security-section" class="admin-section hidden">
+                    <div class="text-center py-12">
+                        <i class="fas fa-shield-alt text-4xl text-gray-400 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Security & Backup</h3>
+                        <p class="text-gray-600">Security settings and backup management coming soon...</p>
+                    </div>
+                </div>
+
+                <div id="logs-section" class="admin-section hidden">
+                    <div class="text-center py-12">
+                        <i class="fas fa-clipboard-list text-4xl text-gray-400 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Activity Logs</h3>
+                        <p class="text-gray-600">System and user activity logs coming soon...</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals Container -->
+    <div id="modalsContainer"></div>
+
+    <!-- Scripts -->
+    <script src="js/admin-panel.js"></script>
+    
+    <!-- Industry Leader SOP - Admin Analytics -->
+    <script src="js/growth-analytics.js"></script>
+    <script src="js/profitability-optimization-engine.js"></script>
+    
+    <!-- PWA Service Worker for Android APK -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('admin-sw.js')
+                    .then(function(registration) {
+                        console.log('Admin SW registered: ', registration);
+                    })
+                    .catch(function(registrationError) {
+                        console.log('Admin SW registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>

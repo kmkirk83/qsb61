@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+    Quantum Spark Bot™ - Proprietary Software Platform
+    © 2024 All Rights Reserved.
+    
+    PROTECTED INTELLECTUAL PROPERTY: This application contains 
+    proprietary trading algorithms, subscription management systems,
+    and user interface designs protected under copyright law.
+    
+    Unauthorized reproduction, reverse engineering, or commercial 
+    use is strictly prohibited.
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Spark Bot™ - Professional Trading Platform</title>
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="copyright" content="© 2024 Quantum Spark Bot Platform. All Rights Reserved.">
+    <meta name="author" content="Quantum Spark Bot Development Team">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 font-inter min-h-screen">
+    <!-- Navigation Header -->
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-6">
+                <div class="flex items-center">
+                    <i class="fas fa-bolt text-purple-600 text-2xl mr-3"></i>
+                    <h1 class="text-2xl font-bold text-gray-900">Quantum Spark Bot</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span id="connectionStatus" class="flex items-center text-sm">
+                        <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                        Connected
+                    </span>
+                    <button onclick="logout()" class="text-gray-600 hover:text-gray-800 text-sm">
+                        <i class="fas fa-sign-out-alt mr-1"></i>
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Navigation Tabs -->
+        <div class="bg-white rounded-lg shadow-sm mb-8">
+            <nav class="flex space-x-8 px-6" aria-label="Tabs">
+                <button id="configTab" class="tab-button border-b-2 border-blue-500 py-4 px-1 text-sm font-medium text-blue-600" onclick="showTab('config')">
+                    <i class="fas fa-cog mr-2"></i>Bot Configuration
+                </button>
+                <button id="apiTab" class="tab-button border-b-2 border-transparent py-4 px-1 text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300" onclick="showTab('api')">
+                    <i class="fas fa-plug mr-2"></i>API Integrations
+                </button>
+                <button id="walletsTab" class="tab-button border-b-2 border-transparent py-4 px-1 text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300" onclick="showTab('wallets')">
+                    <i class="fas fa-wallet mr-2"></i>Wallets & Accounts
+                </button>
+                <button id="analyticsTab" class="tab-button border-b-2 border-transparent py-4 px-1 text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300" onclick="showTab('analytics')">
+                    <i class="fas fa-chart-line mr-2"></i>Analytics
+                </button>
+                <button id="adminTab" class="tab-button border-b-2 border-transparent py-4 px-1 text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300" onclick="showTab('admin')" style="display: none;">
+                    <i class="fas fa-crown mr-2"></i>Admin Panel
+                </button>
+            </nav>
+        </div>
+
+        <!-- Bot Configuration Tab -->
+        <div id="configContent" class="tab-content">
+        <!-- Main Dashboard -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Bot Configuration Panel -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-semibold text-gray-900">Bot Configuration</h2>
+                        <div class="flex space-x-2">
+                            <button id="saveConfigBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium">
+                                <i class="fas fa-save mr-2"></i>Save Config
+                            </button>
+                            <button id="loadConfigBtn" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium">
+                                <i class="fas fa-folder-open mr-2"></i>Load Config
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Bot Status -->
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <div class="flex items-center">
+                                <span class="text-gray-700 font-medium">Bot Status:</span>
+                                <span id="botStatus" class="ml-2 px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm">Stopped</span>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button id="startBotBtn" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium">
+                                    <i class="fas fa-play mr-2"></i>Start Bot
+                                </button>
+                                <button id="stopBotBtn" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium">
+                                    <i class="fas fa-stop mr-2"></i>Stop Bot
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Configuration Form -->
+                    <form id="botConfigForm" class="space-y-6">
+                        
+                        <!-- Basic Settings -->
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <h3 class="text-lg font-medium text-gray-900 mb-4">Basic Settings</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="botName" class="block text-sm font-medium text-gray-700 mb-2">Bot Name</label>
+                                    <input type="text" id="botName" name="botName" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="My Trading Bot">
+                                </div>
+                                <div>
+                                    <label for="tradingPair" class="block text-sm font-medium text-gray-700 mb-2">Trading Pair</label>
+                                    <select id="tradingPair" name="tradingPair" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="">Select Trading Pair</option>
+                                        <option value="BTC/USD">BTC/USD</option>
+                                        <option value="ETH/USD">ETH/USD</option>
+                                        <option value="EUR/USD">EUR/USD</option>
+                                        <option value="GBP/USD">GBP/USD</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="initialBalance" class="block text-sm font-medium text-gray-700 mb-2">Initial Balance ($)</label>
+                                    <input type="number" id="initialBalance" name="initialBalance" min="0" step="0.01" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="1000.00">
+                                </div>
+                                <div>
+                                    <label for="tradeAmount" class="block text-sm font-medium text-gray-700 mb-2">Trade Amount ($)</label>
+                                    <input type="number" id="tradeAmount" name="tradeAmount" min="0" step="0.01" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="100.00">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Risk Management -->
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <h3 class="text-lg font-medium text-gray-900 mb-4">Risk Management</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="stopLoss" class="block text-sm font-medium text-gray-700 mb-2">Stop Loss (%)</label>
+                                    <input type="number" id="stopLoss" name="stopLoss" min="0" max="100" step="0.1" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="2.0">
+                                </div>
+                                <div>
+                                    <label for="takeProfit" class="block text-sm font-medium text-gray-700 mb-2">Take Profit (%)</label>
+                                    <input type="number" id="takeProfit" name="takeProfit" min="0" max="100" step="0.1" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="4.0">
+                                </div>
+                                <div>
+                                    <label for="maxDailyLoss" class="block text-sm font-medium text-gray-700 mb-2">Max Daily Loss ($)</label>
+                                    <input type="number" id="maxDailyLoss" name="maxDailyLoss" min="0" step="0.01" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="200.00">
+                                </div>
+                                <div>
+                                    <label for="maxPositions" class="block text-sm font-medium text-gray-700 mb-2">Max Open Positions</label>
+                                    <input type="number" id="maxPositions" name="maxPositions" min="1" max="20" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="3">
+                                </div>
+                                <div>
+                                    <label for="riskPerTrade" class="block text-sm font-medium text-gray-700 mb-2">Risk Per Trade (%)</label>
+                                    <input type="number" id="riskPerTrade" name="riskPerTrade" min="0.1" max="10" step="0.1" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="1.0">
+                                </div>
+                                <div>
+                                    <label for="riskRewardRatio" class="block text-sm font-medium text-gray-700 mb-2">Risk/Reward Ratio</label>
+                                    <input type="number" id="riskRewardRatio" name="riskRewardRatio" min="1" max="10" step="0.1" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="2.0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Trading Strategy -->
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <h3 class="text-lg font-medium text-gray-900 mb-4">Trading Strategy</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="strategy" class="block text-sm font-medium text-gray-700 mb-2">Strategy Type</label>
+                                    <select id="strategy" name="strategy" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="">Select Strategy</option>
+                                        <option value="momentum">Momentum Trading</option>
+                                        <option value="meanReversion">Mean Reversion</option>
+                                        <option value="breakout">Breakout Trading</option>
+                                        <option value="scalping">Scalping</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="timeframe" class="block text-sm font-medium text-gray-700 mb-2">Timeframe</label>
+                                    <select id="timeframe" name="timeframe" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="">Select Timeframe</option>
+                                        <option value="1m">1 Minute</option>
+                                        <option value="5m">5 Minutes</option>
+                                        <option value="15m">15 Minutes</option>
+                                        <option value="1h">1 Hour</option>
+                                        <option value="4h">4 Hours</option>
+                                        <option value="1d">1 Day</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="indicators" class="block text-sm font-medium text-gray-700 mb-2">Technical Indicators</label>
+                                    <div class="flex flex-wrap gap-2 mt-2">
+                                        <label class="inline-flex items-center">
+                                            <input type="checkbox" name="indicators" value="rsi" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                            <span class="ml-2 text-sm text-gray-700">RSI</span>
+                                        </label>
+                                        <label class="inline-flex items-center">
+                                            <input type="checkbox" name="indicators" value="macd" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                            <span class="ml-2 text-sm text-gray-700">MACD</span>
+                                        </label>
+                                        <label class="inline-flex items-center">
+                                            <input type="checkbox" name="indicators" value="ema" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                            <span class="ml-2 text-sm text-gray-700">EMA</span>
+                                        </label>
+                                        <label class="inline-flex items-center">
+                                            <input type="checkbox" name="indicators" value="bollinger" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                            <span class="ml-2 text-sm text-gray-700">Bollinger Bands</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            <!-- Side Panel -->
+            <div class="lg:col-span-1 space-y-6">
+                
+                <!-- Quick Stats -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Performance Overview</h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Total P&L:</span>
+                            <span id="totalPnL" class="font-semibold text-green-600">+$0.00</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Today's P&L:</span>
+                            <span id="dailyPnL" class="font-semibold text-gray-900">$0.00</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Win Rate:</span>
+                            <span id="winRate" class="font-semibold text-blue-600">0%</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Total Trades:</span>
+                            <span id="totalTrades" class="font-semibold text-gray-900">0</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Active Positions:</span>
+                            <span id="activePositions" class="font-semibold text-purple-600">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Risk Alerts -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Risk Alerts</h3>
+                    <div id="riskAlerts" class="space-y-2">
+                        <div class="text-center text-gray-500 py-4">
+                            No active alerts
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Saved Configurations -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Saved Configurations</h3>
+                    <div id="savedConfigs" class="space-y-2">
+                        <div class="text-center text-gray-500 py-4">
+                            No saved configurations
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Performance Chart -->
+        <div class="mt-8">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900">Performance Chart</h3>
+                    <div class="flex space-x-2">
+                        <button class="px-3 py-1 text-sm bg-gray-200 hover:bg-gray-300 rounded-md">24H</button>
+                        <button class="px-3 py-1 text-sm bg-blue-600 text-white rounded-md">7D</button>
+                        <button class="px-3 py-1 text-sm bg-gray-200 hover:bg-gray-300 rounded-md">30D</button>
+                    </div>
+                </div>
+                <div style="height: 400px;">
+                    <canvas id="performanceChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trading Log -->
+        <div class="mt-8">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-6">Trading Log</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pair</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">P&L</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tradingLog" class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td colspan="7" class="px-6 py-12 text-center text-gray-500">No trades yet</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        </div>
+        <!-- End Bot Configuration Tab -->
+
+        <!-- API Integrations Tab -->
+        <div id="apiContent" class="tab-content hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <!-- Platform Integrations -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-6">Platform Integrations</h2>
+                    
+                    <!-- Integration Status Overview -->
+                    <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                        <div class="flex items-center">
+                            <i class="fas fa-info-circle text-blue-500 mr-2"></i>
+                            <span class="text-blue-800 text-sm font-medium">Integration Status</span>
+                        </div>
+                        <div class="mt-2 text-sm text-blue-700">
+                            Configure your trading platform connections below. All credentials are stored securely in your browser.
+                        </div>
+                    </div>
+
+                    <!-- Platform Selection -->
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50">
+                            <div class="flex items-center">
+                                <img src="https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@1/32/color/btc.png" alt="Coinbase" class="w-8 h-8 mr-3">
+                                <div>
+                                    <h3 class="font-medium text-gray-900">Coinbase Pro</h3>
+                                    <p class="text-sm text-gray-600">Connect your Coinbase Pro account</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span id="coinbaseStatus" class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">Not Connected</span>
+                                <button onclick="showPlatformConfig('coinbase')" class="text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50">
+                            <div class="flex items-center">
+                                <i class="fab fa-bitcoin text-green-600 text-2xl mr-3"></i>
+                                <div>
+                                    <h3 class="font-medium text-gray-900">Binance</h3>
+                                    <p class="text-sm text-gray-600">Connect your Binance account</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span id="binanceStatus" class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">Not Connected</span>
+                                <button onclick="showPlatformConfig('binance')" class="text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50">
+                            <div class="flex items-center">
+                                <i class="fas fa-chart-line text-blue-600 text-2xl mr-3"></i>
+                                <div>
+                                    <h3 class="font-medium text-gray-900">TradingView</h3>
+                                    <p class="text-sm text-gray-600">Connect TradingView alerts</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span id="tradingviewStatus" class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">Not Connected</span>
+                                <button onclick="showPlatformConfig('tradingview')" class="text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50">
+                            <div class="flex items-center">
+                                <i class="fas fa-mobile-alt text-green-600 text-2xl mr-3"></i>
+                                <div>
+                                    <h3 class="font-medium text-gray-900">Robinhood</h3>
+                                    <p class="text-sm text-gray-600">Connect your Robinhood account</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span id="robinhoodStatus" class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">Not Connected</span>
+                                <button onclick="showPlatformConfig('robinhood')" class="text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50">
+                            <div class="flex items-center">
+                                <i class="fas fa-exchange-alt text-purple-600 text-2xl mr-3"></i>
+                                <div>
+                                    <h3 class="font-medium text-gray-900">Kraken</h3>
+                                    <p class="text-sm text-gray-600">Connect your Kraken account</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span id="krakenStatus" class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">Not Connected</span>
+                                <button onclick="showPlatformConfig('kraken')" class="text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- API Configuration Panel -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-6">API Configuration</h2>
+                    
+                    <!-- Default state -->
+                    <div id="apiConfigDefault" class="text-center py-12">
+                        <i class="fas fa-plug text-gray-400 text-4xl mb-4"></i>
+                        <h3 class="text-lg font-medium text-gray-900 mb-2">Select a Platform</h3>
+                        <p class="text-gray-600">Choose a platform from the left to configure API credentials</p>
+                    </div>
+
+                    <!-- Dynamic API forms will be inserted here -->
+                    <div id="apiConfigForm" class="hidden">
+                        <!-- Platform-specific forms will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- API Documentation -->
+            <div class="mt-8 bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6">Integration Documentation</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="p-4 border border-gray-200 rounded-lg">
+                        <h3 class="font-medium text-gray-900 mb-2">
+                            <i class="fas fa-shield-alt text-green-500 mr-2"></i>Security Notice
+                        </h3>
+                        <p class="text-sm text-gray-600">All API credentials are stored locally in your browser and never sent to external servers. For production use, implement server-side credential management.</p>
+                    </div>
+                    
+                    <div class="p-4 border border-gray-200 rounded-lg">
+                        <h3 class="font-medium text-gray-900 mb-2">
+                            <i class="fas fa-code text-blue-500 mr-2"></i>CORS Limitations
+                        </h3>
+                        <p class="text-sm text-gray-600">Most trading APIs require server-side integration due to CORS restrictions. This interface provides the foundation for implementing proper API connections.</p>
+                    </div>
+                    
+                    <div class="p-4 border border-gray-200 rounded-lg">
+                        <h3 class="font-medium text-gray-900 mb-2">
+                            <i class="fas fa-server text-purple-500 mr-2"></i>Production Setup
+                        </h3>
+                        <p class="text-sm text-gray-600">For live trading, you'll need a backend server to securely handle API calls and manage authentication tokens.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End API Integrations Tab -->
+
+        <!-- Wallets & Accounts Tab -->
+        <div id="walletsContent" class="tab-content hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <!-- Wallet Connections -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-6">Wallet Connections</h2>
+                    
+                    <!-- Add Wallet Form -->
+                    <div class="mb-6 p-4 border border-gray-200 rounded-lg">
+                        <h3 class="font-medium text-gray-900 mb-4">Add Wallet Address</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Wallet Type</label>
+                                <select id="walletType" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="">Select Wallet Type</option>
+                                    <option value="bitcoin">Bitcoin (BTC)</option>
+                                    <option value="ethereum">Ethereum (ETH)</option>
+                                    <option value="binancecoin">Binance Coin (BNB)</option>
+                                    <option value="cardano">Cardano (ADA)</option>
+                                    <option value="solana">Solana (SOL)</option>
+                                    <option value="polygon">Polygon (MATIC)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Wallet Address</label>
+                                <input type="text" id="walletAddress" placeholder="Enter wallet address" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Label (Optional)</label>
+                                <input type="text" id="walletLabel" placeholder="e.g., Main Trading Wallet" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <button onclick="addWallet()" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium">
+                                <i class="fas fa-plus mr-2"></i>Add Wallet
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Connected Wallets List -->
+                    <div>
+                        <h3 class="font-medium text-gray-900 mb-4">Connected Wallets</h3>
+                        <div id="walletsList" class="space-y-3">
+                            <div class="text-center text-gray-500 py-8">
+                                No wallets connected yet
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wallet Portfolio Overview -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-6">Portfolio Overview</h2>
+                    
+                    <!-- Portfolio Stats -->
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="p-4 bg-blue-50 rounded-lg">
+                            <div class="text-sm text-blue-600">Total Balance</div>
+                            <div id="totalPortfolioValue" class="text-2xl font-bold text-blue-900">$0.00</div>
+                        </div>
+                        <div class="p-4 bg-green-50 rounded-lg">
+                            <div class="text-sm text-green-600">24h Change</div>
+                            <div id="portfolioChange24h" class="text-2xl font-bold text-green-900">+$0.00</div>
+                        </div>
+                    </div>
+
+                    <!-- Asset Allocation Chart -->
+                    <div class="mb-6">
+                        <h3 class="font-medium text-gray-900 mb-4">Asset Allocation</h3>
+                        <div style="height: 300px;">
+                            <canvas id="portfolioChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Recent Transactions -->
+                    <div>
+                        <h3 class="font-medium text-gray-900 mb-4">Recent Transactions</h3>
+                        <div id="recentTransactions" class="space-y-2">
+                            <div class="text-center text-gray-500 py-4">
+                                No transactions found
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blockchain Integration Info -->
+            <div class="mt-8 bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6">Blockchain Integration</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="text-center p-4 border border-gray-200 rounded-lg">
+                        <i class="fab fa-bitcoin text-orange-500 text-3xl mb-2"></i>
+                        <h3 class="font-medium text-gray-900">Bitcoin Network</h3>
+                        <p class="text-sm text-gray-600 mt-1">Track Bitcoin addresses and transactions</p>
+                        <div class="mt-2">
+                            <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Supported</span>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center p-4 border border-gray-200 rounded-lg">
+                        <i class="fab fa-ethereum text-blue-500 text-3xl mb-2"></i>
+                        <h3 class="font-medium text-gray-900">Ethereum Network</h3>
+                        <p class="text-sm text-gray-600 mt-1">Monitor ETH and ERC-20 tokens</p>
+                        <div class="mt-2">
+                            <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Supported</span>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center p-4 border border-gray-200 rounded-lg">
+                        <i class="fas fa-coins text-purple-500 text-3xl mb-2"></i>
+                        <h3 class="font-medium text-gray-900">Multi-Chain</h3>
+                        <p class="text-sm text-gray-600 mt-1">Support for multiple blockchain networks</p>
+                        <div class="mt-2">
+                            <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Coming Soon</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Wallets & Accounts Tab -->
+
+        <!-- Analytics Tab -->
+        <div id="analyticsContent" class="tab-content hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <!-- Performance Analytics -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-6">Performance Analytics</h2>
+                    
+                    <!-- Key Metrics -->
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="p-3 bg-gray-50 rounded-lg">
+                            <div class="text-sm text-gray-600">Sharpe Ratio</div>
+                            <div class="text-xl font-bold text-gray-900">0.00</div>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-lg">
+                            <div class="text-sm text-gray-600">Max Drawdown</div>
+                            <div class="text-xl font-bold text-gray-900">0.00%</div>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-lg">
+                            <div class="text-sm text-gray-600">Profit Factor</div>
+                            <div class="text-xl font-bold text-gray-900">0.00</div>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-lg">
+                            <div class="text-sm text-gray-600">Avg Trade</div>
+                            <div class="text-xl font-bold text-gray-900">$0.00</div>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Charts -->
+                    <div style="height: 300px;">
+                        <canvas id="analyticsChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Risk Analytics -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-6">Risk Analytics</h2>
+                    
+                    <!-- Risk Metrics -->
+                    <div class="space-y-4 mb-6">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Value at Risk (1%)</span>
+                            <span class="font-semibold">$0.00</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Expected Shortfall</span>
+                            <span class="font-semibold">$0.00</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Beta (vs Market)</span>
+                            <span class="font-semibold">0.00</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Correlation</span>
+                            <span class="font-semibold">0.00</span>
+                        </div>
+                    </div>
+
+                    <!-- Risk Distribution -->
+                    <div style="height: 200px;">
+                        <canvas id="riskChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Analytics Tab -->
+
+        <!-- Admin Panel Tab -->
+        <div id="adminContent" class="tab-content hidden">
+            <div class="bg-white rounded-lg shadow-sm p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl font-semibold text-gray-900">Admin Panel</h2>
+                    <div class="flex items-center space-x-4">
+                        <span class="text-sm text-gray-500">Quantum Spark Bot™ Administration</span>
+                        <button onclick="showBankSetupModal()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center">
+                            <i class="fas fa-university mr-2"></i>
+                            Setup Bank Account
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Admin Navigation -->
+                <div class="flex space-x-6 border-b border-gray-200 mb-6">
+                    <button onclick="showAdminSection('users')" class="admin-nav-btn border-b-2 border-blue-500 pb-2 text-sm font-medium text-blue-600">
+                        <i class="fas fa-users mr-2"></i>User Management
+                    </button>
+                    <button onclick="showAdminSection('payments')" class="admin-nav-btn border-b-2 border-transparent pb-2 text-sm font-medium text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-credit-card mr-2"></i>Payments & Revenue
+                    </button>
+                    <button onclick="showAdminSection('settings')" class="admin-nav-btn border-b-2 border-transparent pb-2 text-sm font-medium text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-cog mr-2"></i>System Settings
+                    </button>
+                </div>
+
+                <!-- Users Section -->
+                <div id="admin-users" class="admin-section">
+                    <div id="userManagementPanel"></div>
+                </div>
+
+                <!-- Payments Section -->
+                <div id="admin-payments" class="admin-section hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Revenue Overview -->
+                        <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-6 border border-green-100">
+                            <h3 class="text-lg font-semibold text-green-800 mb-4">
+                                <i class="fas fa-dollar-sign mr-2"></i>Revenue Overview
+                            </h3>
+                            <div id="revenueStats" class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-green-700">Monthly Revenue:</span>
+                                    <span class="font-bold text-green-800" id="monthlyRevenue">$0.00</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-green-700">Active Subscriptions:</span>
+                                    <span class="font-bold text-green-800" id="activeSubscriptions">0</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-green-700">Total Users:</span>
+                                    <span class="font-bold text-green-800" id="totalUsers">0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bank Account Info -->
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6 border border-blue-100">
+                            <h3 class="text-lg font-semibold text-blue-800 mb-4">
+                                <i class="fas fa-university mr-2"></i>Bank Account
+                            </h3>
+                            <div id="bankAccountInfo">
+                                <div class="text-center text-gray-500 py-8">
+                                    <i class="fas fa-university text-3xl mb-3"></i>
+                                    <p>No bank account configured</p>
+                                    <button onclick="showBankSetupModal()" class="mt-3 text-blue-600 hover:text-blue-700 font-medium">
+                                        Setup Bank Account
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment History -->
+                    <div class="mt-6 bg-white rounded-lg border border-gray-200">
+                        <div class="p-4 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900">Recent Payments</h3>
+                        </div>
+                        <div class="p-4">
+                            <div id="paymentHistory" class="text-center text-gray-500 py-8">
+                                <i class="fas fa-receipt text-3xl mb-3"></i>
+                                <p>No payments received yet</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Section -->
+                <div id="admin-settings" class="admin-section hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Stripe Settings -->
+                        <div class="bg-white rounded-lg border border-gray-200 p-6">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                                <i class="fab fa-stripe mr-2"></i>Stripe Configuration
+                            </h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Publishable Key</label>
+                                    <input type="text" id="stripePublishableKey" placeholder="pk_live_..." 
+                                           class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Secret Key</label>
+                                    <input type="password" id="stripeSecretKey" placeholder="sk_live_..." 
+                                           class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <button onclick="saveStripeSettings()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg font-medium">
+                                    Save Stripe Settings
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- PayPal Settings -->
+                        <div class="bg-white rounded-lg border border-gray-200 p-6">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                                <i class="fab fa-paypal mr-2"></i>PayPal Configuration
+                            </h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Client ID</label>
+                                    <input type="text" id="paypalClientId" placeholder="AY..." 
+                                           class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Client Secret</label>
+                                    <input type="password" id="paypalClientSecret" placeholder="EL..." 
+                                           class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <button onclick="savePayPalSettings()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-medium">
+                                    Save PayPal Settings
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Admin Panel Tab -->
+
+    </div>
+
+    <!-- API Configuration Modal -->
+    <div id="apiModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4 max-h-screen overflow-y-auto">
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 id="modalTitle" class="text-lg font-medium text-gray-900">Platform Configuration</h3>
+                    <button onclick="closeApiModal()" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div id="modalContent">
+                    <!-- Dynamic content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Copyright Footer -->
+    <footer class="bg-gray-900 text-white py-4 px-4 mt-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                <div>
+                    <h4 class="font-semibold text-white mb-2">Quantum Spark Bot™</h4>
+                    <p class="text-gray-300 text-xs">© 2024 All Rights Reserved.</p>
+                    <p class="text-red-300 text-xs mt-1">⚠️ Proprietary Software Platform</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-2">Legal</h4>
+                    <div class="space-y-1">
+                        <a href="#" onclick="showTermsModal()" class="block text-blue-300 hover:text-blue-100 text-xs">Terms of Service</a>
+                        <a href="#" onclick="showPrivacyModal()" class="block text-blue-300 hover:text-blue-100 text-xs">Privacy Policy</a>
+                        <a href="#" onclick="showCopyrightModal()" class="block text-blue-300 hover:text-blue-100 text-xs">Copyright Notice</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-2">Intellectual Property</h4>
+                    <p class="text-gray-300 text-xs">Protected under U.S. & International Copyright Law</p>
+                    <p class="text-yellow-300 text-xs mt-1">🔒 Trade Secrets & Proprietary Technology</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-4 pt-4 text-center text-xs text-gray-400">
+                This software contains proprietary algorithms, trade secrets, and confidential information.
+                Unauthorized copying, distribution, or commercial use is strictly prohibited and may result in legal action.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Legal Modals -->
+    <div id="legalModals"></div>
+
+    <!-- Payment Gateway Scripts -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&vault=true&intent=subscription"></script>
+    
+    <!-- Application Scripts -->
+    <script src="js/cloudflare-d1-integration.js"></script>
+    <script src="js/database-connector.js"></script>
+    <script src="js/payment-processor.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/api-integration.js"></script>
+    <script src="js/subscription-manager.js"></script>
+    <script src="js/legal-protection.js"></script>
+</body>
+</html>
