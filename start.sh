@@ -8,7 +8,7 @@ echo "  Quantum Spark Bot™ - Starting...  "
 echo "========================================"
 
 # Change to app directory
-cd /app
+cd "$(cd "$(dirname "$0")" && pwd)"
 
 # Check if Python is available
 if ! command -v python3 &> /dev/null; then
@@ -30,7 +30,7 @@ if [ ! -d "js" ]; then
 fi
 
 echo "✓ Required files found"
-echo "✓ Starting HTTP server on port 8080..."
+echo "✓ Starting HTTP server on port ${PORT:-8080}..."
 echo ""
 
 # Start the server

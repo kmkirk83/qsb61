@@ -11,8 +11,8 @@ import sys
 from pathlib import Path
 
 # Configuration
-PORT = 3001
-DIRECTORY = "/app"
+PORT = int(os.environ.get("PORT", "8080"))
+DIRECTORY = Path(__file__).resolve().parent
 
 class MyHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
